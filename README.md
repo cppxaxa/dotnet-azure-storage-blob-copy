@@ -32,11 +32,10 @@ Copy blob between two azure storage using SAS URL
 
             var copyInfo = await destinationBlobClient.StartCopyFromUriAsync(sourceBlobClient.Uri);
 
-            int timeout = this.WorkflowInstanceData.GetProperty<int>(
-                CommandWorkflowConstants.ScriptExecutionTimeSpanInSeconds);
+            int timeout = 600;
             int millisTimeout = timeout * 60;
 
-            using var cancellationTokenSource = new CancellationTokenSource(timeout);
+            using var cancellationTokenSource = new CancellationTokenSource(millisTimeout);
             var cancellationToken = cancellationTokenSource.Token;
 
             await copyInfo.WaitForCompletionAsync(cancellationToken);
